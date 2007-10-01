@@ -11,7 +11,7 @@ License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/xmms-projectm/%{name}-%{version}.tar.bz2
 # Source0-md5:	20dc0aa2af96340c3209c9795cc3217d
-URL:		http://xmms-projectm.sourceforge.net/
+URL:		http://projectm.sourceforge.net/
 BuildRequires:	ftgl-devel >= 2.1.2-3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

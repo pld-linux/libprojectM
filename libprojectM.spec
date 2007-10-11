@@ -1,18 +1,23 @@
 # TODO:
 # - pl summary
+# - test if it works
 #
 %define		_name	projectM
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
-Name:		lib%{_name}
-Version:	0.99
+Name:		libprojectM
+Version:	1.0
 Release:	0.1
 License:	LGPL
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/xmms-projectm/%{name}-%{version}.tar.bz2
-# Source0-md5:	20dc0aa2af96340c3209c9795cc3217d
+Source0:	http://dl.sourceforge.net/sourceforge/projectm/%{name}-%{version}.tar.bz2
+# Source0-md5:	66d2405fcb03efd4c82a0ea1989b4cbc
+Patch0:		%{name}-static.patch
 URL:		http://projectm.sourceforge.net/
+BuildRequires:	cmake
+BuildRequires:	glew-devel
 BuildRequires:	ftgl-devel >= 2.1.2-3
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -45,11 +50,19 @@ Static projectM library.
 Statyczna biblioteka projectM.
 
 %prep
-%setup -q -n %{name}
+%setup -q
+%patch0 -p1
+#workaround for library path
+%{__sed} -i \
+    -e 's#DESTINATION lib#DESTINATION %{_libdir}#' \
+    -e 's#lib/pkgconfig#%{_lib}/pkgconfig#' \
+    CMakeLists.txt
 
 %build
-%configure
-%{__make}
+%cmake \
+	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+        .
+%{__make} 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -66,22 +79,17 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog
-%attr(755,root,root) %{_libdir}/libprojectM.so.*.*.*
+%attr(755,root,root) %{_libdir}/libprojectM.so
 %dir %{_datadir}/%{_name}
-%{_datadir}/%{_name}/config
-%{_datadir}/%{_name}/config.fastcomputers
-%{_datadir}/%{_name}/config.slowcomputers
+%{_datadir}/%{_name}/config.inp
 %dir %{_datadir}/%{_name}/fonts
 %{_datadir}/%{_name}/fonts/*.ttf
 %dir %{_datadir}/%{_name}/presets
-%{_datadir}/%{_name}/presets/*.milk
-
+%{_datadir}/%{_name}/presets/*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libprojectM.so
-%{_libdir}/libprojectM.la
-%{_includedir}/%{_name}
+%{_includedir}/%{name}
 %{_pkgconfigdir}/libprojectM.pc
 
 %files static

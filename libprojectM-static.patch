@@ -1,0 +1,48 @@
+--- libprojectM-1.0/CMakeLists.txt	2007-10-10 14:47:14.000000000 +0000
++++ libprojectM-1.0/CMakeLists.txt	2007-10-11 17:57:31.000000000 +0000
+@@ -1,5 +1,13 @@
+ PROJECT(projectM)
+-ADD_LIBRARY(projectM SHARED projectM.cpp FBO.cpp InitCond.cpp 
++ADD_LIBRARY(projectM-shared SHARED projectM.cpp FBO.cpp InitCond.cpp 
++ Expr.cpp PCM.cpp Parser.cpp Preset.cpp BeatDetect.cpp PerPixelEqn.cpp Param.cpp CustomWave.cpp CustomShape.cpp 
++Func.cpp Eval.cpp  PerFrameEqn.cpp PerPointEqn.cpp fftsg.cpp KeyHandler.cpp
++ timer.cpp  wipemalloc.cpp 
++BuiltinFuncs.cpp BuiltinParams.cpp Renderer.cpp 
++PresetLoader.cpp  PresetChooser.cpp PresetFrameIO.cpp PresetMerge.cpp
++ConfigFile.cpp  IdlePreset.cpp TextureManager.cpp MoodBar.cpp image_DXT.c image_helper.c SOIL.c stb_image.c  )
++
++ADD_LIBRARY(projectM-static STATIC projectM.cpp FBO.cpp InitCond.cpp 
+  Expr.cpp PCM.cpp Parser.cpp Preset.cpp BeatDetect.cpp PerPixelEqn.cpp Param.cpp CustomWave.cpp CustomShape.cpp 
+ Func.cpp Eval.cpp  PerFrameEqn.cpp PerPointEqn.cpp fftsg.cpp KeyHandler.cpp
+  timer.cpp  wipemalloc.cpp 
+@@ -9,20 +17,22 @@
+ 
+ OPTION(USE_FTGL "Use FTGL for on-screen fonts" ON)
+ 
++SET_TARGET_PROPERTIES(projectM-shared projectM-static PROPERTIES OUTPUT_NAME projectM)
++
+ ADD_DEFINITIONS(-DLINUX -DUSE_FBO)
+ 
+ FIND_PACKAGE(OpenGL)
+ 
+ INCLUDE(FindPkgConfig.cmake)
+ 
+-TARGET_LINK_LIBRARIES(projectM GLEW m)
++TARGET_LINK_LIBRARIES(projectM-shared projectM-static GLEW m)
+ 
+ IF(USE_FTGL)
+ 	pkg_search_module (FTGL ftgl)
+ 	ADD_DEFINITIONS(-DUSE_FTGL)
+ 	INCLUDE_DIRECTORIES(${FTGL_INCLUDE_DIRS})
+ 	LINK_DIRECTORIES(${FTGL_LIBRARY_DIRS} "./")
+-        TARGET_LINK_LIBRARIES(projectM GLEW m ftgl freetype)
++        TARGET_LINK_LIBRARIES(projectM-shared projectM-static GLEW m ftgl freetype)
+ ENDIF(USE_FTGL)
+ 
+ CONFIGURE_FILE("libprojectM.pc.in" "libprojectM.pc" @ONLY)
+@@ -35,4 +45,4 @@
+ INSTALL(FILES "${CMAKE_BINARY_DIR}/libprojectM.pc" DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+ INSTALL(FILES config.inp DESTINATION ${CMAKE_INSTALL_PREFIX}/share/projectM)
+ INSTALL(FILES projectM.hpp event.h dlldefs.h fatal.h PresetFrameIO.hpp PCM.hpp  DESTINATION include/libprojectM)
+-INSTALL(TARGETS projectM DESTINATION lib)
++INSTALL(TARGETS projectM-shared projectM-static DESTINATION lib)

@@ -4,12 +4,12 @@
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
-Version:	1.0
+Version:	1.01
 Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2
-# Source0-md5:	66d2405fcb03efd4c82a0ea1989b4cbc
+# Source0-md5:	2570446daf58421aa81181dc0964c3f5
 Patch0:		%{name}-static.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
@@ -64,7 +64,7 @@ Statyczna biblioteka projectM.
 %build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-		.
+	.
 %{__make}
 
 %install

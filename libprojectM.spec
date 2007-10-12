@@ -1,13 +1,11 @@
-# TODO:
-# - pl summary
-# - test if it works
 #
 %define		_name	projectM
+#
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	1.0
-Release:	0.1
+Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/sourceforge/projectm/%{name}-%{version}.tar.bz2
@@ -24,6 +22,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 projectM is a reimplementation of Milkdrop under OpenGL. It is an
 awesome music visualizer. There is nothing better in the world of
 Unix.
+
+%description -p pl.UTF-8
+projectM jest reimplementacją projektu Milkdrop na OpenGL. Jest
+imponującym wizualizatorem muzyki. Nie ma nic lepszego w świecie
+uniksa.
 
 %package devel
 Summary:	Header files for projectM library

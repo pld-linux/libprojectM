@@ -8,13 +8,13 @@ Version:	1.0
 Release:	1
 License:	LGPL
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/sourceforge/projectm/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2
 # Source0-md5:	66d2405fcb03efd4c82a0ea1989b4cbc
 Patch0:		%{name}-static.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
-BuildRequires:	glew-devel
 BuildRequires:	ftgl-devel >= 2.1.2-3
+BuildRequires:	glew-devel
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -23,7 +23,7 @@ projectM is a reimplementation of Milkdrop under OpenGL. It is an
 awesome music visualizer. There is nothing better in the world of
 Unix.
 
-%description -p pl.UTF-8
+%description -l pl.UTF-8
 projectM jest reimplementacją projektu Milkdrop na OpenGL. Jest
 imponującym wizualizatorem muzyki. Nie ma nic lepszego w świecie
 uniksa.
@@ -64,8 +64,8 @@ Statyczna biblioteka projectM.
 %build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-        .
-%{__make} 
+		.
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -4,12 +4,12 @@
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
-Version:	1.01
+Version:	1.1
 Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2
-# Source0-md5:	2570446daf58421aa81181dc0964c3f5
+# Source0-md5:	3d939a4228f5e782620670961ac89aaf
 Patch0:		%{name}-static.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
@@ -58,12 +58,14 @@ Statyczna biblioteka projectM.
 #workaround for library path
 %{__sed} -i \
     -e 's#DESTINATION lib#DESTINATION %{_libdir}#' \
-    -e 's#lib/pkgconfig#%{_lib}/pkgconfig#' \
     CMakeLists.txt
 
 %build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+%if "%{_lib}" == "lib64"
+	-DLIB_SUFFIX=64 \
+%endif
 	.
 %{__make}
 
@@ -82,16 +84,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog
-%attr(755,root,root) %{_libdir}/libprojectM.so
+%attr(755,root,root) %{_libdir}/libprojectM.so.*.*
+%ghost %attr(755,root,root) %{_libdir}/libprojectM.so.?
 %dir %{_datadir}/%{_name}
 %{_datadir}/%{_name}/config.inp
 %dir %{_datadir}/%{_name}/fonts
 %{_datadir}/%{_name}/fonts/*.ttf
 %dir %{_datadir}/%{_name}/presets
-%{_datadir}/%{_name}/presets/*
+%{_datadir}/%{_name}/presets/*.milk
+%{_datadir}/%{_name}/presets/*.prjm
+%{_datadir}/%{_name}/presets/*.tga
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libprojectM.so
 %{_includedir}/%{name}
 %{_pkgconfigdir}/libprojectM.pc
 

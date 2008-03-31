@@ -6,6 +6,7 @@ Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	1.1
 Release:	1
+Epoch:		1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2

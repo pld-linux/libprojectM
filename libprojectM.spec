@@ -33,7 +33,7 @@ uniksa.
 Summary:	Header files for projectM library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki projectM
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 Header files for projectM library.
@@ -45,7 +45,7 @@ Pliki nagłówkowe biblioteki projectM.
 Summary:	Static projectM library
 Summary(pl.UTF-8):	Statyczna biblioteka projectM
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 Static projectM library.

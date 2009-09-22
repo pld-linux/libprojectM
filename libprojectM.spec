@@ -4,17 +4,19 @@
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
-Version:	1.1
-Release:	3
+Version:	1.2.0
+Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2
-# Source0-md5:	3d939a4228f5e782620670961ac89aaf
+# Source0-md5:	3bb7abb0f2d929780851bad1ca4fd045
 Patch0:		%{name}-static.patch
+Patch1:		%{name}-ftgl.patch
+Patch2:		%{name}-gcc4.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
-BuildRequires:	ftgl-devel >= 2.1.2-3
+BuildRequires:	ftgl-devel >= 2.1.3
 BuildRequires:	glew-devel
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -56,14 +58,13 @@ Statyczna biblioteka projectM.
 %prep
 %setup -q
 %patch0 -p1
-#workaround for library path
-%{__sed} -i \
-    -e 's#DESTINATION lib#DESTINATION %{_libdir}#' \
-    CMakeLists.txt
+%patch1 -p1
+%patch2 -p1
 
 %build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DBUILD_PROJECTM_STATIC=yes \
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64 \
 %endif

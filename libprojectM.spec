@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog
 %attr(755,root,root) %{_libdir}/libprojectM.so.*.*
-%ghost %attr(755,root,root) %{_libdir}/libprojectM.so.?
+%attr(755,root,root) %ghost %{_libdir}/libprojectM.so.?
 %dir %{_datadir}/%{_name}
 %{_datadir}/%{_name}/config.inp
 %dir %{_datadir}/%{_name}/fonts

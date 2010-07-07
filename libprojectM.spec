@@ -1,24 +1,25 @@
-#
-%define		_name	projectM
-#
+%define		pkgname	projectM
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
-Version:	1.2.0
+Version:	2.0.1
 Release:	1
 Epoch:		1
 License:	LGPL
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/projectm/%{name}-%{version}.tar.bz2
-# Source0-md5:	3bb7abb0f2d929780851bad1ca4fd045
-Patch0:		%{name}-static.patch
-Patch1:		%{name}-ftgl.patch
-Patch2:		%{name}-gcc4.patch
+Source0:	http://downloads.sourceforge.net/project/projectm/%{version}/projectM-%{version}-Source.tar.gz
+# Source0-md5:	f8bf795878cdbbef54784cf2390b4c89
+Patch0:		%{name}-soname.patch
+Patch1:		%{name}-fonts.patch
+Patch2:		%{name}-static.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
 BuildRequires:	ftgl-devel >= 2.1.3
 BuildRequires:	glew-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.566
+BuildRequires:	sed >= 4.0
+Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -56,7 +57,8 @@ Static projectM library.
 Statyczna biblioteka projectM.
 
 %prep
-%setup -q
+%setup -q -n projectM-%{version}-Source
+%undos config.inp.in
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -87,15 +89,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc ChangeLog
 %attr(755,root,root) %{_libdir}/libprojectM.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libprojectM.so.?
-%dir %{_datadir}/%{_name}
-%{_datadir}/%{_name}/config.inp
-%dir %{_datadir}/%{_name}/fonts
-%{_datadir}/%{_name}/fonts/*.ttf
-%dir %{_datadir}/%{_name}/presets
-%{_datadir}/%{_name}/presets/*.milk
-%{_datadir}/%{_name}/presets/*.prjm
-%{_datadir}/%{_name}/presets/*.tga
+%attr(755,root,root) %ghost %{_libdir}/libprojectM.so.2
+%dir %{_datadir}/%{pkgname}
+%{_datadir}/%{pkgname}/config.inp
+%dir %{_datadir}/%{pkgname}/presets
+%{_datadir}/%{pkgname}/presets/*.milk
+%{_datadir}/%{pkgname}/presets/*.prjm
+%{_datadir}/%{pkgname}/presets/*.tga
+%dir %{_datadir}/%{pkgname}/shaders
+%{_datadir}/%{pkgname}/shaders/*.cg
 
 %files devel
 %defattr(644,root,root,755)

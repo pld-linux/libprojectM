@@ -1,9 +1,22 @@
+# TODO
+# - cmake is borken and adds objects (static libs) in the middle of lists (Renderer/libRenderer.a):
+#   Linking CXX shared library libprojectM.so
+#   /usr/bin/cmake -E cmake_link_script CMakeFiles/projectM-shared.dir/link.txt --verbose=1
+#   /usr/bin/ccache  i686-pld-linux-g++ -fPIC -O2 -fno-strict-aliasing -fwrapv -march=i686 -mtune=pentium4 -gdwarf-3 -g2   -fopenmp  -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc  -shared -Wl,-soname,libprojectM.so.2 -o libprojectM.so.2.0.1 CMakeFiles/projectM-shared.dir/projectM.cpp.o CMakeFiles/projectM-shared.dir/PCM.cpp.o CMakeFiles/projectM-shared.dir/Preset.cpp.o CMakeFiles/projectM-shared.dir/fftsg.cpp.o CMakeFiles/projectM-shared.dir/KeyHandler.cpp.o CMakeFiles/projectM-shared.dir/timer.cpp.o CMakeFiles/projectM-shared.dir/wipemalloc.cpp.o CMakeFiles/projectM-shared.dir/PresetLoader.cpp.o CMakeFiles/projectM-shared.dir/PresetChooser.cpp.o CMakeFiles/projectM-shared.dir/PipelineMerger.cpp.o CMakeFiles/projectM-shared.dir/ConfigFile.cpp.o CMakeFiles/projectM-shared.dir/TimeKeeper.cpp.o CMakeFiles/projectM-shared.dir/PresetFactory.cpp.o CMakeFiles/projectM-shared.dir/PresetFactoryManager.cpp.o Renderer/libRenderer.a NativePresetFactory/libNativePresetFactory.a MilkdropPresetFactory/libMilkdropPresetFactory.a -lGLEW -lftgl -lfreetype -lGLU -lGL -lSM -lICE -lX11 -lXext Renderer/libRenderer.a -lm
+#
+#   CMakeLists.txt having:
+#   TARGET_LINK_LIBRARIES(projectM-shared ${PRESET_FACTORY_LINK_TARGETS} ${GLEW_LINK_TARGETS} m dl ${FTGL_LINK_TARGETS} ${OPENGL_LIBRARIES}  ${IMAGE_LINK_TARGETS} ${CG_LINK_TARGETS})
+#
+#   NativePresetFactory/CMakeLists.txt has:
+#   TARGET_LINK_LIBRARIES(NativePresetFactory Renderer m)
+#   which mixes .a between -l for dl
+
 %define		pkgname	projectM
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	2.0.1
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL
 Group:		Libraries
@@ -12,6 +25,7 @@ Source0:	http://downloads.sourceforge.net/project/projectm/%{version}/projectM-%
 Patch0:		%{name}-soname.patch
 Patch1:		%{name}-fonts.patch
 Patch2:		%{name}-static.patch
+Patch3:		as-needed.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
 BuildRequires:	ftgl-devel >= 2.1.3
@@ -21,6 +35,9 @@ BuildRequires:	rpmbuild(macros) >= 1.566
 BuildRequires:	sed >= 4.0
 Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# cmake (or cmake rules) are broken, mixes .a (objects) with libs (-l)
+%define		filterout_ld	-Wl,--as-needed
 
 %description
 projectM is a reimplementation of Milkdrop under OpenGL. It is an
@@ -62,6 +79,7 @@ Statyczna biblioteka projectM.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %cmake \

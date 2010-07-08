@@ -1,0 +1,20 @@
+--- projectM-2.0.1-Source/CMakeLists.txt~	2010-07-08 16:07:06.780358558 +0200
++++ projectM-2.0.1-Source/CMakeLists.txt	2010-07-08 16:12:21.173660854 +0200
+@@ -35,6 +35,7 @@
+ OPTION (DISABLE_MILKDROP_PRESETS "Turn off support for Milkdrop (.milk / .prjm) presets"  OFF)
+ 
+ ADD_DEFINITIONS(-DCMAKE_INSTALL_PREFIX="\\\"${CMAKE_INSTALL_PREFIX}\\\"")
++ADD_DEFINITIONS(-DCMAKE_LIB_DIR="\\\"${CMAKE_LIB_DIR}\\\"")
+ 
+ if (USE_NATIVE_GLEW)
+ ADD_DEFINITIONS(-DUSE_NATIVE_GLEW)
+--- projectM-2.0.1-Source/libprojectM.pc.in~	2009-12-06 02:42:51.000000000 +0100
++++ projectM-2.0.1-Source/libprojectM.pc.in	2010-07-08 16:14:05.757817030 +0200
+@@ -1,6 +1,6 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@LIB_INSTALL_DIR@
++libdir=@CMAKE_LIB_DIR@
+ includedir=@CMAKE_INSTALL_PREFIX@/include
+ pkgdatadir=@CMAKE_INSTALL_PREFIX@/@RESOURCE_PREFIX@
+ sysconfdir=@CMAKE_INSTALL_PREFIX@/@RESOURCE_PREFIX@

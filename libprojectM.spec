@@ -16,7 +16,7 @@ Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	2.0.1
-Release:	3
+Release:	4
 Epoch:		1
 License:	LGPL
 Group:		Libraries
@@ -27,12 +27,15 @@ Patch1:		%{name}-fonts.patch
 Patch2:		%{name}-static.patch
 Patch3:		as-needed.patch
 Patch4:		%{name}-pkgconfig.patch
+Patch5:		01-change-texture-size.patch
+Patch6:		04-change-preset-duration.patch
+Patch7:		06-fix-numeric-locale.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	cmake
 BuildRequires:	ftgl-devel >= 2.1.3
 BuildRequires:	glew-devel
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.566
+BuildRequires:	rpmbuild(macros) >= 1.577
 BuildRequires:	sed >= 4.0
 Requires:	fonts-TTF-bitstream-vera
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -82,22 +85,22 @@ Statyczna biblioteka projectM.
 %patch2 -p1
 %patch3 -p1
 %patch4	-p1
+%patch5	-p0
+%patch6	-p0
+%patch7	-p0
 
 %build
+install -d build
+cd build
 %cmake \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DCMAKE_LIB_DIR=%{_libdir} \
 	-DBUILD_PROJECTM_STATIC=yes \
-%if "%{_lib}" == "lib64"
-	-DLIB_SUFFIX=64 \
-%endif
-	.
+	../
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__make} install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean

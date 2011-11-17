@@ -16,7 +16,7 @@ Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	2.0.1
-Release:	5
+Release:	6
 Epoch:		1
 License:	LGPL
 Group:		Libraries

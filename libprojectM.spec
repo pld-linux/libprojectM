@@ -18,7 +18,7 @@ Name:		libprojectM
 Version:	2.0.1
 Release:	6
 Epoch:		1
-License:	LGPL
+License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/project/projectm/%{version}/projectM-%{version}-Source.tar.gz
 # Source0-md5:	f8bf795878cdbbef54784cf2390b4c89
@@ -31,9 +31,14 @@ Patch5:		01-change-texture-size.patch
 Patch6:		04-change-preset-duration.patch
 Patch7:		06-fix-numeric-locale.patch
 URL:		http://projectm.sourceforge.net/
-BuildRequires:	cmake
+BuildRequires:	OpenGL-devel
+BuildRequires:	cmake >= 2.6.0
+BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	ftgl-devel >= 2.1.3
+BuildRequires:	gcc-c++ >= 6:4.2
 BuildRequires:	glew-devel
+BuildRequires:	libgomp-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.577
 BuildRequires:	sed >= 4.0
@@ -111,7 +116,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog
+# COPYING is just license information, not actual LGPL text
+%doc COPYING ChangeLog
 %attr(755,root,root) %{_libdir}/libprojectM.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libprojectM.so.2
 %dir %{_datadir}/%{pkgname}

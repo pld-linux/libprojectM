@@ -16,7 +16,7 @@ Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
 Version:	2.0.1
-Release:	6
+Release:	7
 Epoch:		1
 License:	LGPL v2.1+
 Group:		Libraries
@@ -30,6 +30,7 @@ Patch4:		%{name}-pkgconfig.patch
 Patch5:		01-change-texture-size.patch
 Patch6:		04-change-preset-duration.patch
 Patch7:		06-fix-numeric-locale.patch
+Patch8:		freetype.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	cmake >= 2.6.0
@@ -93,6 +94,7 @@ Statyczna biblioteka projectM.
 %patch5	-p0
 %patch6	-p0
 %patch7	-p0
+%patch8 -p1
 
 %build
 install -d build

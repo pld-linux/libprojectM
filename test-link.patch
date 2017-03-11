@@ -1,0 +1,15 @@
+diff -ur projectM-complete-2.1.0-Source/src/projectM-test/CMakeLists.txt projectM-complete-2.1.0-Source-gl/src/projectM-test/CMakeLists.txt
+--- projectM-complete-2.1.0-Source/src/projectM-test/CMakeLists.txt	2012-05-20 05:43:26.000000000 +0200
++++ projectM-complete-2.1.0-Source-gl/src/projectM-test/CMakeLists.txt	2017-03-11 23:16:53.922207194 +0100
+@@ -38,8 +38,8 @@
+ INCLUDE_DIRECTORIES(${PROJECTM_INCLUDE} ${SDL_INCLUDE_DIR} ${GTK_INCLUDE_DIR})
+ LINK_DIRECTORIES(${PROJECTM_LINK})
+ 
+-TARGET_LINK_LIBRARIES(projectM-test projectM  ${SDL_LIBRARY})
+-TARGET_LINK_LIBRARIES(projectM-test-memleak projectM  ${SDL_LIBRARY} )
+-TARGET_LINK_LIBRARIES(projectM-test-texture projectM  ${SDL_LIBRARY} )
++TARGET_LINK_LIBRARIES(projectM-test projectM  ${SDL_LIBRARY} ${OPENGL_LIBRARIES} )
++TARGET_LINK_LIBRARIES(projectM-test-memleak projectM  ${SDL_LIBRARY} ${OPENGL_LIBRARIES} )
++TARGET_LINK_LIBRARIES(projectM-test-texture projectM  ${SDL_LIBRARY} ${OPENGL_LIBRARIES} )
+ 
+ INSTALL(TARGETS projectM-test projectM-test-texture DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )

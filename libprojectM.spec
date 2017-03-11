@@ -15,22 +15,17 @@
 Summary:	Awesome music visualizer
 Summary(pl.UTF-8):	Imponujący wizualizator muzyki
 Name:		libprojectM
-Version:	2.0.1
-Release:	10
+Version:	2.1.0
+Release:	0.1
 Epoch:		1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/project/projectm/%{version}/projectM-%{version}-Source.tar.gz
-# Source0-md5:	f8bf795878cdbbef54784cf2390b4c89
-Patch0:		%{name}-soname.patch
-Patch1:		%{name}-fonts.patch
-Patch2:		%{name}-static.patch
-Patch3:		as-needed.patch
-Patch4:		%{name}-pkgconfig.patch
-Patch5:		01-change-texture-size.patch
-Patch6:		04-change-preset-duration.patch
-Patch7:		06-fix-numeric-locale.patch
-Patch8:		freetype.patch
+Source0:	http://downloads.sourceforge.net/project/projectm/%{version}/projectM-complete-%{version}-Source.tar.gz
+# Source0-md5:	debf30f7ce94ff0102f06fbb0cc4e92b
+Patch0:		paths.patch
+Patch1:		pkgconfig.patch
+Patch2:		c++14.patch
+Patch3:		test-link.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	cmake >= 2.6.0
@@ -71,37 +66,20 @@ Header files for projectM library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki projectM.
 
-%package static
-Summary:	Static projectM library
-Summary(pl.UTF-8):	Statyczna biblioteka projectM
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
-
-%description static
-Static projectM library.
-
-%description static -l pl.UTF-8
-Statyczna biblioteka projectM.
-
 %prep
-%setup -q -n projectM-%{version}-Source
-%undos config.inp.in
+%setup -q -n projectM-complete-%{version}-Source
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4	-p1
-%patch5	-p0
-%patch6	-p0
-%patch7	-p0
-%patch8 -p1
 
 %build
 install -d build
 cd build
 %cmake \
 	-DCMAKE_LIB_DIR=%{_libdir} \
-	-DBUILD_PROJECTM_STATIC=yes \
+	-DprojectM_FONT_MENU="/usr/share/fonts/TTF/Vera.ttf" \
+	-DprojectM_FONT_TITLE="/usr/share/fonts/TTF/VeraMono.ttf" \
 	../
 %{__make}
 
@@ -119,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # COPYING is just license information, not actual LGPL text
-%doc COPYING ChangeLog
+%doc src/libprojectM/{COPYING,ChangeLog}
 %attr(755,root,root) %{_libdir}/libprojectM.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libprojectM.so.2
 %dir %{_datadir}/%{pkgname}
@@ -136,7 +114,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libprojectM.so
 %{_includedir}/%{name}
 %{_pkgconfigdir}/libprojectM.pc
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libprojectM.a

@@ -28,6 +28,7 @@ Patch2:		c++14.patch
 Patch3:		test-link.patch
 URL:		http://projectm.sourceforge.net/
 BuildRequires:	OpenGL-devel
+BuildRequires:	SDL-devel
 BuildRequires:	cmake >= 2.6.0
 BuildRequires:	freetype-devel >= 2.0
 BuildRequires:	ftgl-devel >= 2.1.3
@@ -35,6 +36,7 @@ BuildRequires:	gcc-c++ >= 6:4.2
 BuildRequires:	glew-devel
 BuildRequires:	libgomp-devel
 BuildRequires:	libstdc++-devel
+BuildRequires:	libvisual-devel >= 0.4.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.577
 BuildRequires:	sed >= 4.0
@@ -65,6 +67,20 @@ Header files for projectM library.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki projectM.
+
+%package -n libvisual-projectM
+Summary:	ProjectM plugin for libvisual
+Summary(pl.UTF-8):	Wtyczka ProjectM dla libvisual
+Group:		Libraries
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description -n libvisual-projectM
+projectM is a reimplementation of Milkdrop under OpenGL. This is a
+plugin for libvisual visualization library.
+
+%description -n libvisual-projectM -l pl.UTF-8
+projectM jest reimplementacją projektu Milkdrop na OpenGL. Ten pakiet
+zawiera wtyczkę dla biblioteki wizualizacji libvisual.
 
 %prep
 %setup -q -n projectM-complete-%{version}-Source
@@ -114,3 +130,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libprojectM.so
 %{_includedir}/%{name}
 %{_pkgconfigdir}/libprojectM.pc
+
+%files -n libvisual-projectM
+%defattr(644,root,root,755)
+%doc ChangeLog AUTHORS
+%attr(755,root,root) %{_libdir}/libvisual-0.4/actor/libprojectM_libvisual.so
